@@ -20,6 +20,18 @@ export function SettingsPanel() {
         />
       </div>
       <div className="flex items-center justify-between">
+        <label htmlFor="sound-toggle" className="text-sm">
+          효과음
+        </label>
+        <Switch
+          id="sound-toggle"
+          checked={settings.soundEnabled}
+          onCheckedChange={(checked) =>
+            updateSettings({ soundEnabled: checked })
+          }
+        />
+      </div>
+      <div className="flex items-center justify-between">
         <label htmlFor="toast-toggle" className="text-sm">
           토스트 알림
         </label>

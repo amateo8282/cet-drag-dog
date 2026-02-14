@@ -4,6 +4,7 @@ import type { Settings } from "@/domain/Settings";
 import { createFetchButton } from "./FetchButton";
 import { createRetrieverAnimation } from "./RetrieverAnimation";
 import { createToast } from "./Toast";
+import { playBarkSound, playSuccessSound } from "./SoundEffects";
 
 // Shadow DOM 호스트 생성
 const host = document.createElement("div");
@@ -24,7 +25,7 @@ function getSettings(): Promise<Settings> {
         if (response?.success) {
           resolve(response.data);
         } else {
-          resolve({ animationEnabled: true, toastEnabled: true });
+          resolve({ animationEnabled: true, toastEnabled: true, soundEnabled: true });
         }
       },
     );
@@ -36,6 +37,11 @@ const fetchButton = createFetchButton(shadowRoot, async () => {
 
   const settings = await getSettings();
   const selectionRect = lastSelection.rect;
+
+  // 효과음 재생 (설정에 따라)
+  if (settings.soundEnabled) {
+    playBarkSound();
+  }
 
   // 애니메이션 재생 (설정에 따라)
   if (settings.animationEnabled) {
@@ -56,10 +62,12 @@ const fetchButton = createFetchButton(shadowRoot, async () => {
       },
     },
     (response) => {
-      if (response?.success && settings.toastEnabled) {
-        // 애니메이션 완료 후 토스트 (애니메이션이 꺼져있으면 즉시)
+      if (response?.success) {
         const delay = settings.animationEnabled ? 2600 : 0;
-        setTimeout(() => toast.show(), delay);
+        setTimeout(() => {
+          if (settings.soundEnabled) playSuccessSound();
+          if (settings.toastEnabled) toast.show();
+        }, delay);
       }
     },
   );

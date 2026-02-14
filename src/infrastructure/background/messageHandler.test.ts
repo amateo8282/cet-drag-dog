@@ -140,7 +140,7 @@ describe("messageHandler", () => {
   it("SAVE_SETTINGS: 설정을 저장한다", async () => {
     await handler({
       type: MessageType.SAVE_SETTINGS,
-      payload: { animationEnabled: false, toastEnabled: true },
+      payload: { animationEnabled: false, toastEnabled: true, soundEnabled: true },
     });
 
     const result = await handler({ type: MessageType.GET_SETTINGS });

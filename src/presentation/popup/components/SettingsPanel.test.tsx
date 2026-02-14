@@ -8,7 +8,7 @@ vi.stubGlobal("chrome", {
       if (callback) {
         callback({
           success: true,
-          data: { animationEnabled: true, toastEnabled: true },
+          data: { animationEnabled: true, toastEnabled: true, soundEnabled: true },
         });
       }
     }),
@@ -24,6 +24,11 @@ describe("SettingsPanel", () => {
   it("애니메이션 토글을 표시한다", () => {
     render(<SettingsPanel />);
     expect(screen.getByText("리트리버 애니메이션")).toBeInTheDocument();
+  });
+
+  it("효과음 토글을 표시한다", () => {
+    render(<SettingsPanel />);
+    expect(screen.getByText("효과음")).toBeInTheDocument();
   });
 
   it("토스트 토글을 표시한다", () => {

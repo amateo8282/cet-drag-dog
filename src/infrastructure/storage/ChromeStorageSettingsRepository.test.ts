@@ -31,7 +31,7 @@ describe("ChromeStorageSettingsRepository", () => {
   });
 
   it("설정을 저장하고 불러온다", async () => {
-    await repo.save({ animationEnabled: false, toastEnabled: true });
+    await repo.save({ animationEnabled: false, toastEnabled: true, soundEnabled: true });
     const settings = await repo.get();
     expect(settings.animationEnabled).toBe(false);
     expect(settings.toastEnabled).toBe(true);
